@@ -1,0 +1,3 @@
+const http=require('http'),fs=require('fs'),path=require('path');
+const root=process.cwd(),types={'.html':'text/html','.css':'text/css','.js':'text/javascript'};
+http.createServer((req,res)=>{const url=req.url==='/'?'/index.html':req.url;const file=path.join(root,url);if(!file.startsWith(root)){res.writeHead(403);return res.end('Forbidden')}fs.readFile(file,(err,data)=>{if(err){res.writeHead(404);return res.end('Not found')}res.writeHead(200,{'Content-Type':types[path.extname(file)]||'text/plain'});res.end(data)})}).listen(8000,'127.0.0.1',()=>console.log('NOVA preview on http://127.0.0.1:8000'));
